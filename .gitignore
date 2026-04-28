@@ -1,0 +1,123 @@
+# ==========================================
+# .NET / C#
+# ==========================================
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+*.rsuser
+*.pidb
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+project.lock.json
+project.fragment.lock.json
+artifacts/
+**/Properties/launchSettings.json
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/
+!**/[Pp]ackages/build/
+nuget.exe
+.nuget/
+*.nuspec
+
+# EF Core migrations snapshot (keep migration files, ignore designer noise)
+# Uncomment if you want to ignore migrations entirely:
+# **/Migrations/
+
+# ==========================================
+# ASP.NET Core — secrets & local config
+# ==========================================
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+secrets.json
+**/secrets/
+
+# ==========================================
+# Logs (Serilog rolling files)
+# ==========================================
+**/logs/
+*.log
+
+# ==========================================
+# Node / npm (frontend or tooling)
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.pnp.*
+
+# Build output
+dist/
+build/
+.next/
+out/
+
+# ==========================================
+# React Native / Expo (mobile)
+# ==========================================
+.expo/
+.expo-shared/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+android/
+ios/
+
+# ==========================================
+# Docker
+# ==========================================
+.dockerignore
+docker-compose.override.yml
+docker-compose.*.local.yml
+
+# ==========================================
+# Environment files
+# ==========================================
+.env
+.env.*
+!.env.example
+
+# ==========================================
+# IDEs
+# ==========================================
+
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.VC.opendb
+
+# VS Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# ==========================================
+# OS
+# ==========================================
+.DS_Store
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/

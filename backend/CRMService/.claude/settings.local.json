@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet add *)",
+      "Bash(dotnet build *)",
+      "Read(//tmp/**)",
+      "Bash(cat)",
+      "Bash(dotnet run *)"
+    ]
+  }
+}
