@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Contacts\Dtos\" />
+    <Folder Include="Contacts\UseCases\" />
+    <Folder Include="Idents\" />
+    <Folder Include="Subjects\" />
+  </ItemGroup>
+
+</Project>
