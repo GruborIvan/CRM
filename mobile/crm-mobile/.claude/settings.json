@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/admin/OneDrive/Radna površina/PROJECTS/CRM/backend/CRMService/CRMService.API/Properties/**)",
+      "Read(//c/Users/admin/OneDrive/Radna površina/PROJECTS/CRM/backend/CRMService/CRMService.API/**)",
+      "Read(//c/Users/admin/OneDrive/Radna površina/PROJECTS/CRM/backend/CRMService/**)",
+      "Read(//c/Users/admin/OneDrive/Radna powierzchina/PROJECTS/CRM/mobile/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\admin\\OneDrive\\Radna površina\\PROJECTS\\CRM\\backend\\CRMService\\CRMService.API"
+    ]
+  }
+}
