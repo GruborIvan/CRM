@@ -25,9 +25,8 @@ try
     }
 
     app.UseMiddleware<ExceptionMiddleware>();
-    app.UseHttpsRedirection();
-    app.UseSerilogRequestLogging();
     app.UseCors(CorsSetup.PolicyName);
+    app.UseSerilogRequestLogging();
     app.UseAuthentication();
     app.UseAuthorization();
     app.MapControllers();
