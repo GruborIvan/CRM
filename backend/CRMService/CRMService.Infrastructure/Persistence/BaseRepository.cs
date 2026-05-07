@@ -1,8 +1,7 @@
 using CRMService.Domain.Common;
-using CRMService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace CRMService.Infrastructure.Repositories;
+namespace CRMService.Infrastructure.Persistence;
 
 public abstract class BaseRepository<T> : IRepository<T> where T : BaseEntity
 {

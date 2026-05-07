@@ -9,7 +9,13 @@
       "Bash(dotnet list *)",
       "Bash(dotnet restore *)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\" -Directory)",
-      "Bash(Select-Object Name)"
+      "Bash(Select-Object Name)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\backend\\\\CRMService\" -Recurse -Force)",
+      "Bash(Select-Object FullName, PSIsContainer)",
+      "Bash(Sort-Object FullName)",
+      "Bash(Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(dotnet build *)"
     ]
   }
 }

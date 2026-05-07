@@ -7,7 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace CRMService.Infrastructure.Services;
+namespace CRMService.Infrastructure.Auth;
 
 public class TokenService : ITokenService
 {

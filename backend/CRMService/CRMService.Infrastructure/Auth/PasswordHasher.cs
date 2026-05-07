@@ -1,6 +1,6 @@
 using CRMService.Application.Common;
 
-namespace CRMService.Infrastructure.Services;
+namespace CRMService.Infrastructure.Auth;
 
 public class PasswordHasher : IPasswordHasher
 {

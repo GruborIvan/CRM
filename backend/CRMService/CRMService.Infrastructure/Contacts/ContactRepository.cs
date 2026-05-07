@@ -2,7 +2,7 @@ using CRMService.Domain.Contacts;
 using CRMService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace CRMService.Infrastructure.Repositories;
+namespace CRMService.Infrastructure.Contacts;
 
 public class ContactRepository : BaseRepository<Contact>, IContactRepository
 {

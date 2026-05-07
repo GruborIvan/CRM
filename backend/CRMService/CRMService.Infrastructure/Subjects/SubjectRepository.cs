@@ -2,7 +2,7 @@ using CRMService.Domain.Subjects;
 using CRMService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace CRMService.Infrastructure.Repositories;
+namespace CRMService.Infrastructure.Subjects;
 
 public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
 {

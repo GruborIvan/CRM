@@ -2,7 +2,7 @@ using CRMService.Domain.Users;
 using CRMService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace CRMService.Infrastructure.Repositories;
+namespace CRMService.Infrastructure.Auth;
 
 public class UserRepository : BaseRepository<User>, IUserRepository
 {
