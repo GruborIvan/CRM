@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Subjects\**" />
+    <EmbeddedResource Remove="Subjects\**" />
+    <None Remove="Subjects\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Idents\" />
-    <Folder Include="Subjects\" />
   </ItemGroup>
 
 </Project>

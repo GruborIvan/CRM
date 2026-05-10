@@ -1,3 +1,5 @@
+using CRMService.Application.Customers;
+using CRMService.Application.Customers.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -6,24 +8,32 @@ namespace CRMService.API.Controllers;
 
 [ApiController]
 [Route("customers")]
-[Authorize]
+//[Authorize]
 public class CustomersController : ControllerBase
 {
-    private static readonly List<CustomerDto> _customers =
-    [
-        new(1, "Marko Marković", "marko@example.com"),
-        new(2, "Ana Anić", "ana@example.com"),
-        new(3, "Ivan Ivanić", "ivan@example.com")
-    ];
+    private readonly ICustomerService _customerService;
+    private readonly ILogger<CustomersController> _logger;
+
+    public CustomersController(ICustomerService customerService, ILogger<CustomersController> logger)
+    {
+        _customerService = customerService;
+        _logger = logger;
+    }
 
     [HttpGet]
-    public IActionResult GetAll() => Ok(_customers);
-
-    [HttpGet("{id:int}")]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetAll(CancellationToken ct)
     {
-        var customer = _customers.FirstOrDefault(c => c.Id == id);
-        return customer is null ? NotFound() : Ok(customer);
+        _logger.LogInformation("GET /customers by {User}", User.Identity?.Name);
+        var customers = await _customerService.GetAllAsync(ct);
+        return Ok(customers);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] CreateCustomerDto dto, CancellationToken ct)
+    {
+        _logger.LogInformation("POST /customers by {User}", User.Identity?.Name);
+        var customer = await _customerService.CreateAsync(dto, ct);
+        return CreatedAtAction(nameof(GetAll), new { id = customer.Id }, customer);
     }
 
     [HttpGet("me")]
@@ -33,5 +43,3 @@ public class CustomersController : ControllerBase
         return Ok(new { loggedInAs = username });
     }
 }
-
-public record CustomerDto(int Id, string Name, string Email);

@@ -4,5 +4,5 @@ namespace CRMService.Domain.Idents;
 
 public interface IIdentRepository : IRepository<Ident>
 {
-    Task<IEnumerable<Ident>> GetBySubjectIdAsync(Guid subjectId, CancellationToken ct = default);
+    Task<IEnumerable<Ident>> GetByCompanyIdAsync(Guid companyId, CancellationToken ct = default);
 }

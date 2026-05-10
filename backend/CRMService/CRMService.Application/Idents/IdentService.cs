@@ -24,15 +24,15 @@ public class IdentService : IIdentService
         return ident is null ? null : ToDto(ident);
     }
 
-    public async Task<IEnumerable<IdentDto>> GetBySubjectIdAsync(Guid subjectId, CancellationToken ct = default)
+    public async Task<IEnumerable<IdentDto>> GetByCompanyIdAsync(Guid companyId, CancellationToken ct = default)
     {
-        var idents = await _repository.GetBySubjectIdAsync(subjectId, ct);
+        var idents = await _repository.GetByCompanyIdAsync(companyId, ct);
         return idents.Select(ToDto);
     }
 
     public async Task<IdentDto> CreateAsync(CreateIdentDto dto, CancellationToken ct = default)
     {
-        var ident = Ident.Create(dto.Type, dto.Value, dto.SubjectId);
+        var ident = Ident.Create(dto.Type, dto.Value, dto.CompanyId);
         await _repository.AddAsync(ident, ct);
         return ToDto(ident);
     }
@@ -51,5 +51,5 @@ public class IdentService : IIdentService
         => await _repository.DeleteAsync(id, ct);
 
     private static IdentDto ToDto(Ident i) =>
-        new(i.Id, i.Type, i.Value, i.SubjectId, i.CreatedAt, i.UpdatedAt);
+        new(i.Id, i.Type, i.Value, i.CompanyId, i.CreatedAt, i.UpdatedAt);
 }

@@ -8,8 +8,8 @@ public class IdentRepository : BaseRepository<Ident>, IIdentRepository
 {
     public IdentRepository(CrmDbContext context) : base(context) { }
 
-    public async Task<IEnumerable<Ident>> GetBySubjectIdAsync(Guid subjectId, CancellationToken ct = default)
+    public async Task<IEnumerable<Ident>> GetByCompanyIdAsync(Guid companyId, CancellationToken ct = default)
         => await _dbSet.AsNoTracking()
-            .Where(i => i.SubjectId == subjectId)
+            .Where(i => i.CompanyId == companyId)
             .ToListAsync(ct);
 }

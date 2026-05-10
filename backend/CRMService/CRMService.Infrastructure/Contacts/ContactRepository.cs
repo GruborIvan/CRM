@@ -8,8 +8,8 @@ public class ContactRepository : BaseRepository<Contact>, IContactRepository
 {
     public ContactRepository(CrmDbContext context) : base(context) { }
 
-    public async Task<IEnumerable<Contact>> GetBySubjectIdAsync(Guid subjectId, CancellationToken ct = default)
+    public async Task<IEnumerable<Contact>> GetByCompanyIdAsync(Guid companyId, CancellationToken ct = default)
         => await _dbSet.AsNoTracking()
-            .Where(c => c.SubjectId == subjectId)
+            .Where(c => c.CompanyId == companyId)
             .ToListAsync(ct);
 }

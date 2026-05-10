@@ -4,5 +4,5 @@ namespace CRMService.Domain.Contacts;
 
 public interface IContactRepository : IRepository<Contact>
 {
-    Task<IEnumerable<Contact>> GetBySubjectIdAsync(Guid subjectId, CancellationToken ct = default);
+    Task<IEnumerable<Contact>> GetByCompanyIdAsync(Guid companyId, CancellationToken ct = default);
 }

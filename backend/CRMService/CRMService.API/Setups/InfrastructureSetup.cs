@@ -1,7 +1,8 @@
 using CRMService.Infrastructure.Auth;
+using CRMService.Infrastructure.Companies;
 using CRMService.Infrastructure.Contacts;
+using CRMService.Infrastructure.Customers;
 using CRMService.Infrastructure.Idents;
-using CRMService.Infrastructure.Subjects;
 using CRMService.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,8 @@ public class InfrastructureSetup : IServiceSetup
 
         services
             .AddAuthModule()
-            .AddSubjectsModule()
+            .AddCompaniesModule()
+            .AddCustomersModule()
             .AddContactsModule()
             .AddIdentsModule();
     }

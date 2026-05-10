@@ -8,11 +8,11 @@ public class Contact : BaseEntity
     public string LastName { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string Phone { get; private set; } = string.Empty;
-    public Guid SubjectId { get; private set; }
+    public Guid CompanyId { get; private set; }
 
     private Contact() { }
 
-    public static Contact Create(string firstName, string lastName, string email, string phone, Guid subjectId)
+    public static Contact Create(string firstName, string lastName, string email, string phone, Guid companyId)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(firstName);
         ArgumentException.ThrowIfNullOrWhiteSpace(lastName);
@@ -24,7 +24,7 @@ public class Contact : BaseEntity
             LastName = lastName,
             Email = email,
             Phone = phone,
-            SubjectId = subjectId
+            CompanyId = companyId
         };
     }
 

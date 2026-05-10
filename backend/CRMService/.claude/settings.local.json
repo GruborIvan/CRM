@@ -15,7 +15,13 @@
       "Bash(Sort-Object FullName)",
       "Bash(Format-Table -AutoSize)",
       "PowerShell(Get-ChildItem *)",
-      "PowerShell(dotnet build *)"
+      "PowerShell(dotnet build *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\backend\\\\CRMService\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(dotnet test *)",
+      "Bash(dotnet ef *)",
+      "Bash(Get-ChildItem -Recurse -Include \"*Subject*\" -Name)",
+      "Bash(Sort-Object)"
     ]
   }
 }

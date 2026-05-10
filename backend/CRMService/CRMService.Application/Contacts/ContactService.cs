@@ -24,15 +24,15 @@ public class ContactService : IContactService
         return contact is null ? null : ToDto(contact);
     }
 
-    public async Task<IEnumerable<ContactDto>> GetBySubjectIdAsync(Guid subjectId, CancellationToken ct = default)
+    public async Task<IEnumerable<ContactDto>> GetByCompanyIdAsync(Guid companyId, CancellationToken ct = default)
     {
-        var contacts = await _repository.GetBySubjectIdAsync(subjectId, ct);
+        var contacts = await _repository.GetByCompanyIdAsync(companyId, ct);
         return contacts.Select(ToDto);
     }
 
     public async Task<ContactDto> CreateAsync(CreateContactDto dto, CancellationToken ct = default)
     {
-        var contact = Contact.Create(dto.FirstName, dto.LastName, dto.Email, dto.Phone, dto.SubjectId);
+        var contact = Contact.Create(dto.FirstName, dto.LastName, dto.Email, dto.Phone, dto.CompanyId);
         await _repository.AddAsync(contact, ct);
         return ToDto(contact);
     }
@@ -51,5 +51,5 @@ public class ContactService : IContactService
         => await _repository.DeleteAsync(id, ct);
 
     private static ContactDto ToDto(Contact c) =>
-        new(c.Id, c.FirstName, c.LastName, c.Email, c.Phone, c.SubjectId, c.CreatedAt, c.UpdatedAt);
+        new(c.Id, c.FirstName, c.LastName, c.Email, c.Phone, c.CompanyId, c.CreatedAt, c.UpdatedAt);
 }

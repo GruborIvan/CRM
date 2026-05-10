@@ -6,7 +6,7 @@ public record IdentDto(
     Guid Id,
     IdentType Type,
     string Value,
-    Guid SubjectId,
+    Guid CompanyId,
     DateTime CreatedAt,
     DateTime? UpdatedAt
 );

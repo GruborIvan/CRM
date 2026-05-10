@@ -1,6 +1,7 @@
+using CRMService.Domain.Companies;
 using CRMService.Domain.Contacts;
+using CRMService.Domain.Customers;
 using CRMService.Domain.Idents;
-using CRMService.Domain.Subjects;
 using CRMService.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +12,8 @@ public class CrmDbContext : DbContext
     public CrmDbContext(DbContextOptions<CrmDbContext> options) : base(options) { }
 
     public DbSet<User> Users => Set<User>();
-    public DbSet<Subject> Subjects => Set<Subject>();
+    public DbSet<Company> Companies => Set<Company>();
+    public DbSet<Customer> Customers => Set<Customer>();
     public DbSet<Contact> Contacts => Set<Contact>();
     public DbSet<Ident> Idents => Set<Ident>();
 
