@@ -6,21 +6,30 @@ import {
   StyleSheet,
   ActivityIndicator,
   KeyboardAvoidingView,
+  ScrollView,
   Platform,
 } from 'react-native';
 import { router } from 'expo-router';
 import { useState } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRegister } from '@/src/modules/auth/hooks/use-auth';
+import { Colors } from '@/constants/colors';
+import { Layout } from '@/constants/layout';
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function RegisterScreen() {
+  const insets = useSafeAreaInsets();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [focusedField, setFocusedField] = useState<string | null>(null);
   const { register, isLoading, error } = useRegister();
+
+  const clearError = (field: string) =>
+    setFieldErrors((e) => ({ ...e, [field]: '' }));
 
   const validate = () => {
     const errors: Record<string, string> = {};
@@ -52,173 +61,214 @@ export default function RegisterScreen() {
     }
   };
 
+  const fields: Array<{
+    key: string;
+    label: string;
+    placeholder: string;
+    value: string;
+    onChange: (v: string) => void;
+    secure?: boolean;
+    keyboardType?: 'default' | 'email-address';
+    autoComplete?: 'username-new' | 'email' | 'new-password';
+  }> = [
+    {
+      key: 'username',
+      label: 'Username',
+      placeholder: 'Enter username',
+      value: username,
+      onChange: (v) => { setUsername(v); clearError('username'); },
+      autoComplete: 'username-new',
+    },
+    {
+      key: 'email',
+      label: 'Email',
+      placeholder: 'Enter email',
+      value: email,
+      onChange: (v) => { setEmail(v); clearError('email'); },
+      keyboardType: 'email-address',
+      autoComplete: 'email',
+    },
+    {
+      key: 'password',
+      label: 'Password',
+      placeholder: 'Enter password',
+      value: password,
+      onChange: (v) => { setPassword(v); clearError('password'); },
+      secure: true,
+      autoComplete: 'new-password',
+    },
+    {
+      key: 'confirmPassword',
+      label: 'Confirm password',
+      placeholder: 'Re-enter password',
+      value: confirmPassword,
+      onChange: (v) => { setConfirmPassword(v); clearError('confirmPassword'); },
+      secure: true,
+      autoComplete: 'new-password',
+    },
+  ];
+
   return (
     <KeyboardAvoidingView
-      style={styles.container}
+      style={styles.root}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-      <View style={styles.form}>
-        <Text style={styles.title}>CRM</Text>
-        <Text style={styles.subtitle}>Create an account</Text>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scroll,
+          { paddingTop: insets.top + 32, paddingBottom: insets.bottom + 32 },
+        ]}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}>
 
-        {error ? <Text style={styles.errorBanner}>{error}</Text> : null}
-
-        <View>
-          <TextInput
-            style={[styles.input, fieldErrors.username ? styles.inputError : null]}
-            placeholder="Username"
-            placeholderTextColor="#9ca3af"
-            value={username}
-            onChangeText={(v) => { setUsername(v); setFieldErrors((e) => ({ ...e, username: '' })); }}
-            autoCapitalize="none"
-            autoComplete="username-new"
-            editable={!isLoading}
-          />
-          {fieldErrors.username ? <Text style={styles.fieldError}>{fieldErrors.username}</Text> : null}
+        <View style={styles.brand}>
+          <Text style={styles.logo}>CRM</Text>
+          <Text style={styles.subtitle}>Create an account</Text>
         </View>
 
-        <View>
-          <TextInput
-            style={[styles.input, fieldErrors.email ? styles.inputError : null]}
-            placeholder="Email"
-            placeholderTextColor="#9ca3af"
-            value={email}
-            onChangeText={(v) => { setEmail(v); setFieldErrors((e) => ({ ...e, email: '' })); }}
-            autoCapitalize="none"
-            autoComplete="email"
-            keyboardType="email-address"
-            editable={!isLoading}
-          />
-          {fieldErrors.email ? <Text style={styles.fieldError}>{fieldErrors.email}</Text> : null}
+        <View style={styles.form}>
+          {error ? <Text style={styles.errorBanner}>{error}</Text> : null}
+
+          {fields.map((f) => (
+            <View key={f.key} style={styles.fieldGroup}>
+              <Text style={styles.fieldLabel}>{f.label}</Text>
+              <TextInput
+                style={[
+                  styles.input,
+                  focusedField === f.key && styles.inputFocused,
+                  fieldErrors[f.key] ? styles.inputError : undefined,
+                ]}
+                placeholder={f.placeholder}
+                placeholderTextColor={Colors.textHint}
+                value={f.value}
+                onChangeText={f.onChange}
+                onFocus={() => setFocusedField(f.key)}
+                onBlur={() => setFocusedField(null)}
+                secureTextEntry={f.secure}
+                keyboardType={f.keyboardType ?? 'default'}
+                autoComplete={f.autoComplete}
+                autoCapitalize="none"
+                editable={!isLoading}
+                onSubmitEditing={f.key === 'confirmPassword' ? handleRegister : undefined}
+                returnKeyType={f.key === 'confirmPassword' ? 'go' : 'next'}
+              />
+              {fieldErrors[f.key] ? (
+                <Text style={styles.fieldError}>{fieldErrors[f.key]}</Text>
+              ) : null}
+            </View>
+          ))}
+
+          <TouchableOpacity
+            style={[styles.primaryBtn, isLoading && styles.btnDisabled]}
+            onPress={handleRegister}
+            disabled={isLoading}
+            activeOpacity={0.75}>
+            {isLoading ? (
+              <ActivityIndicator color={Colors.textPrimary} />
+            ) : (
+              <Text style={styles.primaryBtnText}>Register</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => router.back()} activeOpacity={0.75}>
+            <Text style={styles.linkText}>
+              Already have an account?{' '}
+              <Text style={styles.linkAction}>Sign In</Text>
+            </Text>
+          </TouchableOpacity>
         </View>
-
-        <View>
-          <TextInput
-            style={[styles.input, fieldErrors.password ? styles.inputError : null]}
-            placeholder="Password"
-            placeholderTextColor="#9ca3af"
-            value={password}
-            onChangeText={(v) => { setPassword(v); setFieldErrors((e) => ({ ...e, password: '' })); }}
-            secureTextEntry
-            autoComplete="new-password"
-            editable={!isLoading}
-          />
-          {fieldErrors.password ? <Text style={styles.fieldError}>{fieldErrors.password}</Text> : null}
-        </View>
-
-        <View>
-          <TextInput
-            style={[styles.input, fieldErrors.confirmPassword ? styles.inputError : null]}
-            placeholder="Confirm password"
-            placeholderTextColor="#9ca3af"
-            value={confirmPassword}
-            onChangeText={(v) => { setConfirmPassword(v); setFieldErrors((e) => ({ ...e, confirmPassword: '' })); }}
-            secureTextEntry
-            autoComplete="new-password"
-            editable={!isLoading}
-            onSubmitEditing={handleRegister}
-            returnKeyType="go"
-          />
-          {fieldErrors.confirmPassword ? (
-            <Text style={styles.fieldError}>{fieldErrors.confirmPassword}</Text>
-          ) : null}
-        </View>
-
-        <TouchableOpacity
-          style={[styles.button, isLoading && styles.buttonDisabled]}
-          onPress={handleRegister}
-          disabled={isLoading}
-          activeOpacity={0.8}>
-          {isLoading ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <Text style={styles.buttonText}>Register</Text>
-          )}
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => router.back()} activeOpacity={0.7}>
-          <Text style={styles.loginText}>
-            Already have an account? <Text style={styles.loginLink}>Sign In</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  root: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    backgroundColor: Colors.background,
+  },
+  scroll: {
+    flexGrow: 1,
+    paddingHorizontal: Layout.screenPaddingH,
     justifyContent: 'center',
   },
-  form: {
-    marginHorizontal: 24,
-    gap: 10,
+  brand: {
+    alignItems: 'center',
+    marginBottom: 36,
   },
-  title: {
+  logo: {
     fontSize: 32,
     fontWeight: '700',
-    color: '#111827',
-    textAlign: 'center',
-    marginBottom: 4,
-  },
-  subtitle: {
-    fontSize: 15,
-    color: '#6b7280',
-    textAlign: 'center',
+    color: Colors.textPrimary,
+    letterSpacing: -0.5,
     marginBottom: 8,
   },
-  errorBanner: {
+  subtitle: {
     fontSize: 14,
-    color: '#dc2626',
-    backgroundColor: '#fef2f2',
-    borderRadius: 8,
+    color: Colors.textSecondary,
+  },
+  form: {
+    gap: Layout.gap,
+  },
+  errorBanner: {
+    fontSize: 12,
+    color: '#ff4d4d',
+    backgroundColor: 'rgba(255, 77, 77, 0.1)',
+    borderRadius: Layout.radiusMd,
     padding: 12,
     textAlign: 'center',
+    borderWidth: Layout.borderWidth,
+    borderColor: 'rgba(255, 77, 77, 0.3)',
+  },
+  fieldGroup: {
+    gap: 6,
+  },
+  fieldLabel: {
+    fontSize: 12,
+    color: Colors.textMuted,
   },
   input: {
-    height: 52,
-    borderWidth: 1,
-    borderColor: '#d1d5db',
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    fontSize: 16,
-    color: '#111827',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.surface,
+    borderRadius: Layout.radiusMd,
+    borderWidth: Layout.borderWidth,
+    borderColor: Colors.border,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
+    fontSize: 15,
+    color: Colors.textPrimary,
+  },
+  inputFocused: {
+    borderColor: Colors.orange,
   },
   inputError: {
-    borderColor: '#dc2626',
+    borderColor: '#ff4d4d',
   },
   fieldError: {
     fontSize: 12,
-    color: '#dc2626',
-    marginTop: 4,
-    marginLeft: 4,
+    color: '#ff4d4d',
+    marginLeft: 2,
   },
-  button: {
-    height: 52,
-    backgroundColor: '#2563eb',
-    borderRadius: 10,
-    justifyContent: 'center',
+  primaryBtn: {
+    backgroundColor: Colors.orange,
+    borderRadius: Layout.radiusMd,
+    paddingVertical: 15,
     alignItems: 'center',
     marginTop: 4,
   },
-  buttonDisabled: {
+  btnDisabled: {
     opacity: 0.6,
   },
-  buttonText: {
-    color: '#fff',
+  primaryBtnText: {
+    color: Colors.textPrimary,
     fontSize: 16,
     fontWeight: '600',
   },
-  loginText: {
+  linkText: {
     fontSize: 14,
-    color: '#6b7280',
+    color: Colors.textSecondary,
     textAlign: 'center',
-    marginTop: 4,
   },
-  loginLink: {
-    color: '#2563eb',
+  linkAction: {
+    color: Colors.orange,
     fontWeight: '600',
   },
 });
