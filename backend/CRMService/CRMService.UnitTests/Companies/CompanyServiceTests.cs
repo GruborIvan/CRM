@@ -75,7 +75,7 @@ public class CompanyServiceTests
     public async Task GetByIdAsync_WhenFound_ReturnsDto()
     {
         var company = Company.Create("Acme Corp", CompanyStatus.Active);
-        _repository.Setup(r => r.GetByIdAsync(company.Id, default)).ReturnsAsync(company);
+        _repository.Setup(r => r.GetWithDetailsAsync(company.Id, default)).ReturnsAsync(company);
 
         var result = await _sut.GetByIdAsync(company.Id);
 
@@ -86,9 +86,21 @@ public class CompanyServiceTests
     }
 
     [Fact]
+    public async Task GetByIdAsync_WhenFound_ReturnsEmptyContactsList()
+    {
+        var company = Company.Create("Acme Corp", CompanyStatus.Active);
+        _repository.Setup(r => r.GetWithDetailsAsync(company.Id, default)).ReturnsAsync(company);
+
+        var result = await _sut.GetByIdAsync(company.Id);
+
+        Assert.NotNull(result!.Contacts);
+        Assert.Empty(result.Contacts);
+    }
+
+    [Fact]
     public async Task GetByIdAsync_WhenNotFound_ReturnsNull()
     {
-        _repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), default)).ReturnsAsync((Company?)null);
+        _repository.Setup(r => r.GetWithDetailsAsync(It.IsAny<Guid>(), default)).ReturnsAsync((Company?)null);
 
         var result = await _sut.GetByIdAsync(Guid.NewGuid());
 

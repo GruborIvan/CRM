@@ -5,5 +5,5 @@ public record CreateContactDto(
     string LastName,
     string Email,
     string Phone,
-    Guid CompanyId
+    Guid? CompanyId
 );

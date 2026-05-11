@@ -6,7 +6,7 @@ public record ContactDto(
     string LastName,
     string Email,
     string Phone,
-    Guid CompanyId,
+    Guid? CompanyId,
     DateTime CreatedAt,
     DateTime? UpdatedAt
 );

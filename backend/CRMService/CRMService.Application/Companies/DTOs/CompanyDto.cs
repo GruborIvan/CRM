@@ -1,3 +1,4 @@
+using CRMService.Application.Contacts.DTOs;
 using CRMService.Domain.Companies;
 
 namespace CRMService.Application.Companies.DTOs;
@@ -14,5 +15,6 @@ public record CompanyDto(
     string? Notes,
     CompanyStatus Status,
     DateTime CreatedAt,
-    DateTime? UpdatedAt
+    DateTime? UpdatedAt,
+    IReadOnlyList<ContactDto>? Contacts = null
 );

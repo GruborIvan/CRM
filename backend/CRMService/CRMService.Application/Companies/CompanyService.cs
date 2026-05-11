@@ -1,5 +1,7 @@
 using CRMService.Application.Companies.DTOs;
+using CRMService.Application.Contacts.DTOs;
 using CRMService.Domain.Companies;
+using CRMService.Domain.Contacts;
 
 namespace CRMService.Application.Companies;
 
@@ -20,8 +22,8 @@ public class CompanyService : ICompanyService
 
     public async Task<CompanyDto?> GetByIdAsync(Guid id, CancellationToken ct = default)
     {
-        var company = await _repository.GetByIdAsync(id, ct);
-        return company is null ? null : ToDto(company);
+        var company = await _repository.GetWithDetailsAsync(id, ct);
+        return company is null ? null : ToDtoWithContacts(company);
     }
 
     public async Task<CompanyDto> CreateAsync(CreateCompanyDto dto, CancellationToken ct = default)
@@ -56,4 +58,14 @@ public class CompanyService : ICompanyService
         c.Id, c.Name, c.Email, c.Phone, c.Website,
         c.City, c.Address, c.Industry, c.Notes,
         c.Status, c.CreatedAt, c.UpdatedAt);
+
+    private static CompanyDto ToDtoWithContacts(Company c) => new(
+        c.Id, c.Name, c.Email, c.Phone, c.Website,
+        c.City, c.Address, c.Industry, c.Notes,
+        c.Status, c.CreatedAt, c.UpdatedAt,
+        c.Contacts.Select(ContactToDto).ToList().AsReadOnly());
+
+    private static ContactDto ContactToDto(Contact c) => new(
+        c.Id, c.FirstName, c.LastName, c.Email, c.Phone,
+        c.CompanyId, c.CreatedAt, c.UpdatedAt);
 }

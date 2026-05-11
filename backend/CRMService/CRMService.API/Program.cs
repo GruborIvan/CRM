@@ -1,5 +1,6 @@
 using CRMService.API.Middleware;
 using CRMService.API.Setups;
+using CRMService.Infrastructure.Persistence;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -22,6 +23,7 @@ try
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        await DevSeeder.SeedAsync(app.Services);
     }
 
     app.UseMiddleware<ExceptionMiddleware>();

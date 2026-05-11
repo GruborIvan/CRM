@@ -30,7 +30,8 @@ public class CompanyConfiguration : IEntityTypeConfiguration<Company>
         builder.HasMany(c => c.Contacts)
             .WithOne()
             .HasForeignKey(c => c.CompanyId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.SetNull);
 
         builder.HasMany(c => c.Idents)
             .WithOne()
