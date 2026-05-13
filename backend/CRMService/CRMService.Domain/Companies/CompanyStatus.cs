@@ -4,7 +4,7 @@ public enum CompanyStatus
 {
     Lead,
     Prospect,
-    Active,
+    Customer,
     Inactive,
     Churned
 }

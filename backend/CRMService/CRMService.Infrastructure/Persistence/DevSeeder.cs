@@ -53,32 +53,32 @@ public static class DevSeeder
 
     private static List<Company> BuildCompanies() =>
     [
-        Company.Create("FIS", CompanyStatus.Active,
+        Company.Create("FIS", CompanyStatus.Customer,
             email: "office@fis.rs", phone: "+381 11 2011 000",
             website: "https://www.fis.rs", city: "Beograd",
             address: "Milentija Popovića 5b", industry: "Financial Technology"),
 
-        Company.Create("Levi9", CompanyStatus.Active,
+        Company.Create("Levi9", CompanyStatus.Customer,
             email: "info@levi9.com", phone: "+381 21 4750 750",
             website: "https://www.levi9.com", city: "Novi Sad",
             address: "Bulevar oslobođenja 30", industry: "Software Development"),
 
-        Company.Create("Mercator", CompanyStatus.Active,
+        Company.Create("Mercator", CompanyStatus.Customer,
             email: "kontakt@mercator.rs", phone: "+381 11 2200 800",
             website: "https://www.mercator.rs", city: "Beograd",
             address: "Tršćanska 15", industry: "Retail"),
 
-        Company.Create("Connect Software Solutions", CompanyStatus.Active,
+        Company.Create("Connect Software Solutions", CompanyStatus.Customer,
             email: "office@connect.rs", phone: "+381 11 3555 200",
             website: "https://www.connect.rs", city: "Beograd",
             address: "Vladimira Popovića 38-40", industry: "Software Development"),
 
-        Company.Create("MK Group", CompanyStatus.Active,
+        Company.Create("MK Group", CompanyStatus.Customer,
             email: "info@mkgroup.rs", phone: "+381 21 4800 100",
             website: "https://www.mkgroup.rs", city: "Novi Sad",
             address: "Bulevar Mihajla Pupina 6", industry: "Holding"),
 
-        Company.Create("GTS Adriatic", CompanyStatus.Active,
+        Company.Create("GTS Adriatic", CompanyStatus.Customer,
             email: "info@gtsadriatic.com", phone: "+381 11 3200 700",
             website: "https://www.gtsadriatic.com", city: "Beograd",
             address: "Omladinskih brigada 90b", industry: "IT Services"),

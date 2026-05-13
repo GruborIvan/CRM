@@ -16,7 +16,7 @@ public class CompaniesControllerTests
 
     private static CompanyDto MakeDto(
         string name = "Acme Corp",
-        CompanyStatus status = CompanyStatus.Active) => new(
+        CompanyStatus status = CompanyStatus.Customer) => new(
             Guid.NewGuid(), name, null, null, null, null, null, null, null,
             status, DateTime.UtcNow, null);
 

@@ -4,8 +4,8 @@ import { Company, CompanyStatus, CreateCompanyPayload } from '../types/company.t
 const STATUS_MAP: Record<number, CompanyStatus> = {
   0: 'Lead',
   1: 'Prospect',
-  2: 'Active',
-  3: 'Inactive',
+  2: 'Customer',
+  3: 'Churned',
   4: 'Churned',
 };
 

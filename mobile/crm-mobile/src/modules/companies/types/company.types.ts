@@ -24,7 +24,7 @@ export interface Company {
   contacts?: CompanyContact[];
 }
 
-export type CompanyStatus = 'Lead' | 'Prospect' | 'Active' | 'Inactive' | 'Churned';
+export type CompanyStatus = 'Lead' | 'Prospect' | 'Customer' | 'Churned';
 
 export interface CreateCompanyPayload {
   name: string;

@@ -11,8 +11,7 @@ interface StatusStyle {
 const STATUS_STYLES: Record<CompanyStatus, StatusStyle> = {
   Lead:     { bg: '#1e1e1e', text: '#888888', border: '#2a2a2a' },
   Prospect: { bg: 'rgba(74, 158, 255, 0.12)', text: '#4a9eff' },
-  Active:   { bg: 'rgba(74, 222, 128, 0.12)', text: '#4ade80' },
-  Inactive: { bg: 'rgba(100, 100, 100, 0.15)', text: '#666666' },
+  Customer: { bg: 'rgba(74, 222, 128, 0.12)', text: '#4ade80' },
   Churned:  { bg: 'rgba(255, 75, 75, 0.12)', text: '#ff4b4b' },
 };
 

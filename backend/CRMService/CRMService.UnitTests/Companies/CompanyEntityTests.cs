@@ -27,12 +27,12 @@ public class CompanyEntityTests
     public void Create_WithAllFields_SetsEveryField()
     {
         var company = Company.Create(
-            "Acme Corp", CompanyStatus.Active,
+            "Acme Corp", CompanyStatus.Customer,
             "hello@acme.com", "+1234567890", "https://acme.com",
             "London", "1 Main St", "Technology", "Key account");
 
         Assert.Equal("Acme Corp", company.Name);
-        Assert.Equal(CompanyStatus.Active, company.Status);
+        Assert.Equal(CompanyStatus.Customer, company.Status);
         Assert.Equal("hello@acme.com", company.Email);
         Assert.Equal("+1234567890", company.Phone);
         Assert.Equal("https://acme.com", company.Website);
@@ -53,7 +53,7 @@ public class CompanyEntityTests
     [Theory]
     [InlineData(CompanyStatus.Lead)]
     [InlineData(CompanyStatus.Prospect)]
-    [InlineData(CompanyStatus.Active)]
+    [InlineData(CompanyStatus.Customer)]
     [InlineData(CompanyStatus.Inactive)]
     [InlineData(CompanyStatus.Churned)]
     public void Create_WithAnyStatus_SetsStatusCorrectly(CompanyStatus status)
@@ -77,12 +77,12 @@ public class CompanyEntityTests
     {
         var company = Company.Create("Old Name", CompanyStatus.Lead, "old@test.com");
 
-        company.Update("New Name", CompanyStatus.Active,
+        company.Update("New Name", CompanyStatus.Customer,
             "new@test.com", "+99", "https://new.com",
             "Berlin", "99 Strasse", "Finance", "Updated notes");
 
         Assert.Equal("New Name", company.Name);
-        Assert.Equal(CompanyStatus.Active, company.Status);
+        Assert.Equal(CompanyStatus.Customer, company.Status);
         Assert.Equal("new@test.com", company.Email);
         Assert.Equal("+99", company.Phone);
         Assert.Equal("https://new.com", company.Website);
@@ -100,7 +100,7 @@ public class CompanyEntityTests
         var company = Company.Create("Acme Corp", CompanyStatus.Lead);
 
         Assert.Throws<ArgumentException>(() =>
-            company.Update(name, CompanyStatus.Active, null, null, null, null, null, null, null));
+            company.Update(name, CompanyStatus.Customer, null, null, null, null, null, null, null));
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public class CompanyEntityTests
         var company = Company.Create("Acme Corp", CompanyStatus.Lead);
         Assert.Null(company.UpdatedAt);
 
-        company.Update("Acme Corp", CompanyStatus.Active, null, null, null, null, null, null, null);
+        company.Update("Acme Corp", CompanyStatus.Customer, null, null, null, null, null, null, null);
 
         Assert.NotNull(company.UpdatedAt);
         Assert.True(company.UpdatedAt <= DateTime.UtcNow);
@@ -138,7 +138,7 @@ public class CompanyEntityTests
         var company = Company.Create("Acme Corp", CompanyStatus.Lead);
         var originalId = company.Id;
 
-        company.Update("New Name", CompanyStatus.Active, null, null, null, null, null, null, null);
+        company.Update("New Name", CompanyStatus.Customer, null, null, null, null, null, null, null);
 
         Assert.Equal(originalId, company.Id);
     }

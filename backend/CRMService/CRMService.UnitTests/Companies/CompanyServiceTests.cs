@@ -22,7 +22,7 @@ public class CompanyServiceTests
     {
         var companies = new List<Company>
         {
-            Company.Create("Acme Corp", CompanyStatus.Active, email: "acme@example.com"),
+            Company.Create("Acme Corp", CompanyStatus.Customer, email: "acme@example.com"),
             Company.Create("Beta Ltd", CompanyStatus.Lead)
         };
         _repository.Setup(r => r.GetAllAsync(default)).ReturnsAsync(companies);
@@ -74,7 +74,7 @@ public class CompanyServiceTests
     [Fact]
     public async Task GetByIdAsync_WhenFound_ReturnsDto()
     {
-        var company = Company.Create("Acme Corp", CompanyStatus.Active);
+        var company = Company.Create("Acme Corp", CompanyStatus.Customer);
         _repository.Setup(r => r.GetWithDetailsAsync(company.Id, default)).ReturnsAsync(company);
 
         var result = await _sut.GetByIdAsync(company.Id);
@@ -82,13 +82,13 @@ public class CompanyServiceTests
         Assert.NotNull(result);
         Assert.Equal(company.Id, result.Id);
         Assert.Equal("Acme Corp", result.Name);
-        Assert.Equal(CompanyStatus.Active, result.Status);
+        Assert.Equal(CompanyStatus.Customer, result.Status);
     }
 
     [Fact]
     public async Task GetByIdAsync_WhenFound_ReturnsEmptyContactsList()
     {
-        var company = Company.Create("Acme Corp", CompanyStatus.Active);
+        var company = Company.Create("Acme Corp", CompanyStatus.Customer);
         _repository.Setup(r => r.GetWithDetailsAsync(company.Id, default)).ReturnsAsync(company);
 
         var result = await _sut.GetByIdAsync(company.Id);
@@ -146,13 +146,13 @@ public class CompanyServiceTests
     [Fact]
     public async Task CreateAsync_CallsAddAsyncOnRepository()
     {
-        var dto = new CreateCompanyDto("Acme Corp", CompanyStatus.Active,
+        var dto = new CreateCompanyDto("Acme Corp", CompanyStatus.Customer,
             null, null, null, null, null, null, null);
 
         await _sut.CreateAsync(dto);
 
         _repository.Verify(r => r.AddAsync(
-            It.Is<Company>(c => c.Name == "Acme Corp" && c.Status == CompanyStatus.Active),
+            It.Is<Company>(c => c.Name == "Acme Corp" && c.Status == CompanyStatus.Customer),
             default), Times.Once);
     }
 
@@ -180,13 +180,13 @@ public class CompanyServiceTests
     {
         var company = Company.Create("Old Name", CompanyStatus.Lead);
         _repository.Setup(r => r.GetByIdAsync(company.Id, default)).ReturnsAsync(company);
-        var dto = new UpdateCompanyDto("New Name", CompanyStatus.Active,
+        var dto = new UpdateCompanyDto("New Name", CompanyStatus.Customer,
             "new@test.com", null, null, "Berlin", null, null, null);
 
         var result = await _sut.UpdateAsync(company.Id, dto);
 
         Assert.Equal("New Name", result.Name);
-        Assert.Equal(CompanyStatus.Active, result.Status);
+        Assert.Equal(CompanyStatus.Customer, result.Status);
         Assert.Equal("new@test.com", result.Email);
         Assert.Equal("Berlin", result.City);
     }
@@ -195,7 +195,7 @@ public class CompanyServiceTests
     public async Task UpdateAsync_WhenNotFound_ThrowsKeyNotFoundException()
     {
         _repository.Setup(r => r.GetByIdAsync(It.IsAny<Guid>(), default)).ReturnsAsync((Company?)null);
-        var dto = new UpdateCompanyDto("Name", CompanyStatus.Active,
+        var dto = new UpdateCompanyDto("Name", CompanyStatus.Customer,
             null, null, null, null, null, null, null);
 
         await Assert.ThrowsAsync<KeyNotFoundException>(
@@ -209,10 +209,10 @@ public class CompanyServiceTests
         _repository.Setup(r => r.GetByIdAsync(company.Id, default)).ReturnsAsync(company);
 
         await _sut.UpdateAsync(company.Id,
-            new UpdateCompanyDto("New Name", CompanyStatus.Active, null, null, null, null, null, null, null));
+            new UpdateCompanyDto("New Name", CompanyStatus.Customer, null, null, null, null, null, null, null));
 
         _repository.Verify(r => r.UpdateAsync(
-            It.Is<Company>(c => c.Name == "New Name" && c.Status == CompanyStatus.Active),
+            It.Is<Company>(c => c.Name == "New Name" && c.Status == CompanyStatus.Customer),
             default), Times.Once);
     }
 
@@ -223,7 +223,7 @@ public class CompanyServiceTests
         _repository.Setup(r => r.GetByIdAsync(company.Id, default)).ReturnsAsync(company);
 
         await _sut.UpdateAsync(company.Id,
-            new UpdateCompanyDto("New Name", CompanyStatus.Active, null, null, null, null, null, null, null));
+            new UpdateCompanyDto("New Name", CompanyStatus.Customer, null, null, null, null, null, null, null));
 
         _repository.Verify(r => r.AddAsync(It.IsAny<Company>(), default), Times.Never);
     }

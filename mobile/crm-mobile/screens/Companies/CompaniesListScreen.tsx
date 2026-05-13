@@ -26,14 +26,12 @@ import { CompanyCard } from '@/components/companies/CompanyCard';
 import { useCompanies } from '@/hooks/useCompanies';
 import { Company } from '@/src/modules/companies/types/company.types';
 
-const FILTERS = ['All', 'Customers', 'Leads', 'Partners'] as const;
+const FILTERS = ['All', 'Lead', 'Prospect', 'Customer', 'Churned'] as const;
 type Filter = (typeof FILTERS)[number];
 
 function filterCompanies(companies: Company[], filter: Filter, query: string): Company[] {
   let result = companies;
-  if (filter === 'Customers') result = result.filter((c) => c.status === 'Customer');
-  else if (filter === 'Leads') result = result.filter((c) => c.status === 'Lead');
-  else if (filter === 'Partners') result = result.filter((c) => c.status === 'Partner');
+  if (filter !== 'All') result = result.filter((c) => c.status === filter);
   if (query.trim()) {
     const q = query.toLowerCase();
     result = result.filter(

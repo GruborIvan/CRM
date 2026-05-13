@@ -3,10 +3,10 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/colors';
 
 export const STATUS_OPTIONS = [
-  { label: 'Customer', value: 1 },
-  { label: 'Lead', value: 2 },
-  { label: 'Prospect', value: 3 },
-  { label: 'Partner', value: 4 },
+  { label: 'Lead', value: 0 },
+  { label: 'Prospect', value: 1 },
+  { label: 'Customer', value: 2 },
+  { label: 'Churned', value: 4 },
 ] as const;
 
 interface Props {
