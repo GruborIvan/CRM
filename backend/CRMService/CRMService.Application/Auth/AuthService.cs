@@ -26,7 +26,7 @@ public class AuthService : IAuthService
         if (await _users.GetByEmailAsync(dto.Email, ct) is not null)
             throw new ConflictException("Email already in use.");
 
-        var user = User.Create(dto.Username, dto.Email, _passwordHasher.Hash(dto.Password));
+        var user = User.Create(dto.Username, dto.Email, _passwordHasher.Hash(dto.Password), dto.FirstName, dto.LastName);
         await _users.AddAsync(user, ct);
 
         return await IssueTokensAsync(user, ct);
@@ -40,6 +40,7 @@ public class AuthService : IAuthService
         if (!_passwordHasher.Verify(dto.Password, user.PasswordHash))
             throw new UnauthorizedException("Invalid credentials.");
 
+        user.RecordLogin();
         return await IssueTokensAsync(user, ct);
     }
 

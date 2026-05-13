@@ -1,12 +1,26 @@
-import { View, Text, Pressable, ScrollView, StyleSheet, Alert } from 'react-native';
+import React from 'react';
+import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useLogout } from '@/src/modules/auth/hooks/use-auth';
 import { useAuthStore } from '@/src/modules/auth/store/auth.store';
 import { Colors } from '@/constants/colors';
 import { Layout } from '@/constants/layout';
 import { Typography } from '@/constants/typography';
+
+const AVATAR_COLORS = [
+  { bg: '#FF6B00', text: '#ffffff' },
+  { bg: '#1a3a5c', text: '#4a9eff' },
+  { bg: '#1a3a2a', text: '#4ade80' },
+  { bg: '#2a1a4a', text: '#c084fc' },
+  { bg: '#0d3028', text: '#2dd4bf' },
+] as const;
+
+function hashName(name: string): number {
+  let sum = 0;
+  for (let i = 0; i < name.length; i++) sum += name.charCodeAt(i);
+  return sum % AVATAR_COLORS.length;
+}
 
 type IoniconName = React.ComponentProps<typeof Ionicons>['name'];
 
@@ -25,15 +39,11 @@ const NAV_ITEMS: Array<{
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const { logout } = useLogout();
   const user = useAuthStore((s) => s.user);
 
-  const handleLogout = () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
-      { text: 'Cancel', style: 'cancel' },
-      { text: 'Logout', style: 'destructive', onPress: logout },
-    ]);
-  };
+  const nameParts = (user?.name ?? '').trim().split(/\s+/);
+  const initials = ((nameParts[0]?.[0] ?? '') + (nameParts[1]?.[0] ?? '')).toUpperCase() || '?';
+  const avatarColor = AVATAR_COLORS[hashName(user?.name ?? '')];
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -42,8 +52,10 @@ export default function HomeScreen() {
           <Text style={styles.greeting}>Good day,</Text>
           <Text style={styles.userName}>{user?.name ?? 'Welcome'}</Text>
         </View>
-        <Pressable style={styles.iconBtn} onPress={handleLogout}>
-          <Ionicons name="log-out-outline" size={20} color={Colors.textSecondary} />
+        <Pressable
+          style={styles.avatarBtn}
+          onPress={() => router.push('/(app)/(tabs)/profile')}>
+          <Text style={[styles.avatarInitials, { color: avatarColor.text }]}>{initials}</Text>
         </Pressable>
       </View>
 
@@ -93,7 +105,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     color: Colors.textPrimary,
   },
-  iconBtn: {
+  avatarBtn: {
     width: 36,
     height: 36,
     borderRadius: Layout.radiusCircle,
@@ -102,6 +114,10 @@ const styles = StyleSheet.create({
     borderColor: Colors.border,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  avatarInitials: {
+    fontSize: 13,
+    fontWeight: '700',
   },
   scroll: {
     flex: 1,

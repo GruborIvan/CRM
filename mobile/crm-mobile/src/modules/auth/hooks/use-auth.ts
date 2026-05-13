@@ -59,11 +59,7 @@ export function useLogout() {
 
   const logout = async () => {
     if (refreshToken) {
-      try {
-        await authApi.logout({ refreshToken });
-      } catch {
-        // Clear session locally even if the server call fails
-      }
+      authApi.logout({ refreshToken }).catch(() => {});
     }
     await clearSession();
   };
