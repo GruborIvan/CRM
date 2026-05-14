@@ -1,9 +1,14 @@
-import { useRouter } from 'expo-router';
+import { useRouter, useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
 import { CompaniesListScreen } from '@/screens/Companies/CompaniesListScreen';
+import { useCompanies } from '@/hooks/useCompanies';
 import { Company } from '@/src/modules/companies/types/company.types';
 
 export default function CompaniesPage() {
   const router = useRouter();
+  const { companies, loading, refetch } = useCompanies();
+
+  useFocusEffect(useCallback(() => { refetch(); }, [refetch]));
 
   const handleSelectCompany = (company: Company) => {
     router.push({
@@ -18,6 +23,9 @@ export default function CompaniesPage() {
 
   return (
     <CompaniesListScreen
+      companies={companies}
+      loading={loading}
+      refetch={refetch}
       onSelectCompany={handleSelectCompany}
       onAddCompany={handleAddCompany}
     />

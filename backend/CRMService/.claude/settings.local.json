@@ -21,7 +21,9 @@
       "Bash(dotnet test *)",
       "Bash(dotnet ef *)",
       "Bash(Get-ChildItem -Recurse -Include \"*Subject*\" -Name)",
-      "Bash(Sort-Object)"
+      "Bash(Sort-Object)",
+      "Bash(Remove-Item -Force \"C:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\backend\\\\CRMService\\\\CRMService.Domain\\\\obj\\\\Debug\\\\net8.0\\\\CRMService.Domain.AssemblyInfoInputs.cache\" -ErrorAction SilentlyContinue)",
+      "PowerShell(dotnet clean \"C:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\backend\\\\CRMService\\\\CRMService.API\\\\CRMService.API.csproj\" -q 2>&1; dotnet build \"C:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\backend\\\\CRMService\\\\CRMService.API\\\\CRMService.API.csproj\" -q 2>&1)"
     ]
   }
 }

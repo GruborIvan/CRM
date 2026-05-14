@@ -23,7 +23,6 @@ import { Colors } from '@/constants/colors';
 import { Layout } from '@/constants/layout';
 import { Typography } from '@/constants/typography';
 import { CompanyCard } from '@/components/companies/CompanyCard';
-import { useCompanies } from '@/hooks/useCompanies';
 import { Company } from '@/src/modules/companies/types/company.types';
 
 const FILTERS = ['All', 'Lead', 'Prospect', 'Customer', 'Churned'] as const;
@@ -103,13 +102,15 @@ const skeletonStyles = StyleSheet.create({
 });
 
 interface Props {
+  companies: Company[];
+  loading: boolean;
+  refetch: () => Promise<void>;
   onSelectCompany: (company: Company) => void;
   onAddCompany: () => void;
 }
 
-export function CompaniesListScreen({ onSelectCompany, onAddCompany }: Props) {
+export function CompaniesListScreen({ companies, loading, refetch, onSelectCompany, onAddCompany }: Props) {
   const insets = useSafeAreaInsets();
-  const { companies, loading, refetch } = useCompanies();
   const [activeFilter, setActiveFilter] = useState<Filter>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
