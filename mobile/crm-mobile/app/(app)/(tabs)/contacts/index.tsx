@@ -1,10 +1,14 @@
-import { useRouter } from 'expo-router';
-
+import { useRouter, useFocusEffect } from 'expo-router';
+import { useCallback } from 'react';
 import { ContactsListScreen } from '@/screens/Contacts/ContactsListScreen';
+import { useContacts } from '@/hooks/useContacts';
 import { Contact } from '@/src/modules/contacts/types/contact.types';
 
 export default function ContactsPage() {
   const router = useRouter();
+  const { contacts, loading, refetch } = useContacts();
+
+  useFocusEffect(useCallback(() => { refetch(); }, [refetch]));
 
   const handleSelectContact = (contact: Contact) => {
     router.push({
@@ -15,8 +19,11 @@ export default function ContactsPage() {
 
   return (
     <ContactsListScreen
+      contacts={contacts}
+      loading={loading}
+      refetch={refetch}
       onSelectContact={handleSelectContact}
-      onAddContact={() => {}}
+      onAddContact={() => router.push('/(app)/(tabs)/contacts/add')}
     />
   );
 }

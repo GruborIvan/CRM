@@ -5,6 +5,7 @@ export interface Contact {
   email?: string;
   phone?: string;
   role?: string;
+  notes?: string;
   companyId?: string;
   companyName?: string;
   createdAt?: string;

@@ -5,6 +5,8 @@ export default function ContactsLayout() {
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name="index" />
       <Stack.Screen name="[id]" />
+      <Stack.Screen name="add" />
+      <Stack.Screen name="edit" />
     </Stack>
   );
 }

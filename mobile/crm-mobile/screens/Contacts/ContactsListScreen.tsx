@@ -22,7 +22,6 @@ import { Colors } from '@/constants/colors';
 import { Layout } from '@/constants/layout';
 import { Typography } from '@/constants/typography';
 import { ContactCard } from '@/components/contacts/ContactCard';
-import { useContacts } from '@/hooks/useContacts';
 import { Contact } from '@/src/modules/contacts/types/contact.types';
 
 const ALPHABET_FILTERS = ['All', 'A–F', 'G–M', 'N–S', 'T–Z'] as const;
@@ -96,13 +95,15 @@ const skeletonStyles = StyleSheet.create({
 });
 
 interface Props {
+  contacts: Contact[];
+  loading: boolean;
+  refetch: () => Promise<void>;
   onSelectContact: (contact: Contact) => void;
   onAddContact: () => void;
 }
 
-export function ContactsListScreen({ onSelectContact, onAddContact }: Props) {
+export function ContactsListScreen({ contacts, loading, refetch, onSelectContact, onAddContact }: Props) {
   const insets = useSafeAreaInsets();
-  const { contacts, loading, refetch } = useContacts();
   const [activeFilter, setActiveFilter] = useState<AlphabetFilter>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);

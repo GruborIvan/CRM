@@ -5,7 +5,8 @@
       "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\mobile\\\\crm-mobile\" -Recurse -Directory)",
       "Bash(Select-Object -ExpandProperty FullName)",
       "Bash(Remove-Item \"c:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\mobile\\\\crm-mobile\\\\src\\\\api\\\\client.ts\")",
-      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\mobile\\\\crm-mobile\\\\app\\\\\\(app\\)\\\\\" -Force | Select-Object Name, FullName)"
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\admin\\\\OneDrive\\\\Radna površina\\\\PROJECTS\\\\CRM\\\\mobile\\\\crm-mobile\\\\app\\\\\\(app\\)\\\\\" -Force | Select-Object Name, FullName)",
+      "Bash(Get-ChildItem -Path \"screens\\\\Contacts\\\\\" -ErrorAction SilentlyContinue | Select-Object Name)"
     ]
   }
 }
