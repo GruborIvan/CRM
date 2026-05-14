@@ -39,6 +39,9 @@ public class ContactService : IContactService
 
     public async Task<ContactDto> UpdateAsync(Guid id, UpdateContactDto dto, CancellationToken ct = default)
     {
+        if (dto.FirstName is null && dto.LastName is null && dto.Email is null && dto.Phone is null)
+            throw new ArgumentException("At least one field must be provided for update.");
+
         var contact = await _repository.GetByIdAsync(id, ct)
             ?? throw new KeyNotFoundException($"Contact {id} not found.");
 
