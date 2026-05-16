@@ -54,11 +54,11 @@ public class User : BaseEntity
         MarkUpdated();
     }
 
-    public void UpdateProfile(string? firstName, string? lastName, string? profilePictureUrl)
+    public void UpdateProfile(string? firstName, string? lastName, string? email)
     {
-        FirstName = firstName;
-        LastName = lastName;
-        ProfilePictureUrl = profilePictureUrl;
+        FirstName = firstName ?? FirstName;
+        LastName = lastName ?? LastName;
+        Email = email ?? Email;
         MarkUpdated();
     }
 

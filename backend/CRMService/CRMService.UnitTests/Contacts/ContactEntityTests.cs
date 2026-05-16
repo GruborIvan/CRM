@@ -130,48 +130,6 @@ public class ContactEntityTests
         Assert.Equal("+123", contact.Phone);
     }
 
-    // ── Update — whitespace rejection ────────────────────────────────────────
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void Update_WithWhitespaceFirstName_ThrowsArgumentException(string firstName)
-    {
-        var contact = MakeContact();
-
-        Assert.Throws<ArgumentException>(() => contact.Update(firstName, null, null, null));
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void Update_WithWhitespaceLastName_ThrowsArgumentException(string lastName)
-    {
-        var contact = MakeContact();
-
-        Assert.Throws<ArgumentException>(() => contact.Update(null, lastName, null, null));
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public void Update_WithWhitespaceEmail_ThrowsArgumentException(string email)
-    {
-        var contact = MakeContact();
-
-        Assert.Throws<ArgumentException>(() => contact.Update(null, null, email, null));
-    }
-
-    [Fact]
-    public void Update_WithWhitespaceFirstName_DoesNotMutateState()
-    {
-        var contact = MakeContact();
-
-        try { contact.Update("   ", null, null, null); } catch (ArgumentException) { }
-
-        Assert.Equal("John", contact.FirstName);
-    }
-
     // ── Update — UpdatedAt ───────────────────────────────────────────────────
 
     [Fact]

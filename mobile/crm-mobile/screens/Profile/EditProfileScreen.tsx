@@ -40,6 +40,7 @@ interface InputRowProps {
   placeholder?: string;
   inputRef?: React.RefObject<TextInput | null>;
   last?: boolean;
+  disabled?: boolean;
 }
 
 // ─── InputRow ────────────────────────────────────────────────────────────────
@@ -58,17 +59,18 @@ function InputRow({
   placeholder = '',
   inputRef,
   last = false,
+  disabled = false,
 }: InputRowProps) {
   return (
-    <View style={[rowStyles.row, focused && rowStyles.focused, !last && rowStyles.divider]}>
+    <View style={[rowStyles.row, focused && !disabled && rowStyles.focused, !last && rowStyles.divider, disabled && rowStyles.disabledRow]}>
       <View style={rowStyles.iconWrap}>
-        <Ionicons name={icon} size={14} color={Colors.orange} />
+        <Ionicons name={icon} size={14} color={disabled ? '#333333' : Colors.orange} />
       </View>
       <View style={rowStyles.content}>
         <Text style={rowStyles.label}>{label}</Text>
         <TextInput
           ref={inputRef ?? null}
-          style={rowStyles.input}
+          style={[rowStyles.input, disabled && rowStyles.disabledInput]}
           value={value}
           onChangeText={onChange}
           onFocus={onFocus}
@@ -78,6 +80,7 @@ function InputRow({
           autoCapitalize={autoCapitalize}
           placeholder={placeholder}
           placeholderTextColor="#2e2e2e"
+          editable={!disabled}
         />
       </View>
     </View>
@@ -118,6 +121,12 @@ const rowStyles = StyleSheet.create({
     fontWeight: '500',
     color: Colors.textPrimary,
     padding: 0,
+  },
+  disabledRow: {
+    opacity: 0.4,
+  },
+  disabledInput: {
+    color: '#555555',
   },
 });
 
@@ -193,7 +202,6 @@ export function EditProfileScreen() {
   const profileDirty =
     firstName !== (profile?.firstName ?? '') ||
     lastName  !== (profile?.lastName  ?? '') ||
-    username  !== (profile?.username  ?? '') ||
     email     !== (profile?.email     ?? '');
 
   const passwordFilled = currentPassword !== '' && newPassword !== '' && confirmPassword !== '';
@@ -314,6 +322,7 @@ export function EditProfileScreen() {
                   onFocus={() => setFocused('username')}
                   onBlur={() => setFocused('')}
                   autoCapitalize="none"
+                  disabled
                 />
                 <InputRow
                   icon="mail-outline"

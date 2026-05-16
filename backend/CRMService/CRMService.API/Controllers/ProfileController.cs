@@ -21,15 +21,33 @@ public class ProfileController : ControllerBase
     [HttpGet("me")]
     public async Task<IActionResult> GetProfile(CancellationToken ct)
     {
+        var user = await ResolveUserAsync(ct);
+        return Ok(UserProfileDto.FromUser(user));
+    }
+
+    [HttpPut("me")]
+    public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfileDto dto, CancellationToken ct)
+    {
+        if (dto.FirstName is null && dto.LastName is null && dto.Email is null)
+            throw new ArgumentException("At least one field must be provided for update.");
+
+        var user = await ResolveUserAsync(ct);
+
+        user.UpdateProfile(dto.FirstName, dto.LastName, dto.Email);
+        await _users.UpdateAsync(user, ct);
+
+        return Ok(UserProfileDto.FromUser(user));
+    }
+
+    private async Task<User> ResolveUserAsync(CancellationToken ct)
+    {
         var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier)
             ?? throw new ArgumentException("User identity could not be determined from the token.");
 
         if (!Guid.TryParse(userIdClaim, out var userId))
             throw new ArgumentException("User identity could not be determined from the token.");
 
-        var user = await _users.GetByIdAsync(userId, ct)
-            ?? throw new ArgumentException($"No user found for the provided token.");
-
-        return Ok(UserProfileDto.FromUser(user));
+        return await _users.GetByIdAsync(userId, ct)
+            ?? throw new ArgumentException("No user found for the provided token.");
     }
 }

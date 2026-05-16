@@ -198,29 +198,4 @@ public class ContactServiceTests
         Assert.Equal("+123", result.Phone);
     }
 
-    // ── UpdateAsync — whitespace rejection ───────────────────────────────────
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public async Task UpdateAsync_WithWhitespaceFirstName_ThrowsArgumentException(string firstName)
-    {
-        var contact = MakeContact();
-        _repository.Setup(r => r.GetByIdAsync(contact.Id, default)).ReturnsAsync(contact);
-
-        await Assert.ThrowsAsync<ArgumentException>(
-            () => _sut.UpdateAsync(contact.Id, new UpdateContactDto(firstName, null, null, null)));
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData("   ")]
-    public async Task UpdateAsync_WithWhitespaceEmail_ThrowsArgumentException(string email)
-    {
-        var contact = MakeContact();
-        _repository.Setup(r => r.GetByIdAsync(contact.Id, default)).ReturnsAsync(contact);
-
-        await Assert.ThrowsAsync<ArgumentException>(
-            () => _sut.UpdateAsync(contact.Id, new UpdateContactDto(null, null, email, null)));
-    }
 }

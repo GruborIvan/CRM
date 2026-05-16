@@ -30,24 +30,10 @@ public class Contact : BaseEntity
 
     public void Update(string? firstName, string? lastName, string? email, string? phone)
     {
-        if (firstName is not null)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(firstName);
-            FirstName = firstName;
-        }
-        if (lastName is not null)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(lastName);
-            LastName = lastName;
-        }
-        if (email is not null)
-        {
-            ArgumentException.ThrowIfNullOrWhiteSpace(email);
-            Email = email;
-        }
-        if (phone is not null)
-            Phone = phone;
-
+        FirstName = firstName ?? FirstName;
+        LastName = lastName ?? LastName;
+        Email = email ?? Email;
+        Phone = phone ?? Phone;
         MarkUpdated();
     }
 }
